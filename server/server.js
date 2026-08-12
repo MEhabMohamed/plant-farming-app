@@ -20,6 +20,9 @@ const rootDir = path.join(__dirname, '..');
 const app = express();
 const PORT = process.env.PORT || 3000;
 
+// Enable reverse proxy trust (required for Cloud Run HTTPS & session cookies)
+app.set('trust proxy', 1);
+
 // Enable CORS
 app.use(cors());
 
