@@ -55,7 +55,7 @@
         </button>
       </nav>
 
-      <!-- Header Action Controls: Language & Theme Switchers -->
+      <!-- Header Action Controls: Language, Theme & Settings Switchers -->
       <div class="header-actions">
         <!-- Language Switcher -->
         <button class="btn-icon lang-toggle" id="btn-lang-toggle" title="Switch Language" aria-label="Switch Language">
@@ -64,6 +64,10 @@
         <!-- Theme Switcher -->
         <button class="btn-icon theme-toggle" id="btn-theme-toggle" title="Toggle Theme" aria-label="Toggle Theme">
           <i class="fa-solid fa-moon" id="theme-icon"></i>
+        </button>
+        <!-- Settings Switcher -->
+        <button class="btn-icon settings-toggle" id="btn-settings-toggle" title="Settings" aria-label="Settings">
+          <i class="fa-solid fa-gear" id="settings-icon"></i>
         </button>
       </div>
     </div>
@@ -727,6 +731,72 @@
             <i class="fa-solid fa-check"></i> <span data-i18n="btnAnalyzePhoto">Analyze Photo</span>
           </button>
         </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========================================================================= -->
+  <!-- MODAL: SETTINGS -->
+  <!-- ========================================================================= -->
+  <div class="modal-backdrop hidden" id="settings-modal">
+    <div class="settings-modal-card glass-panel">
+      <div class="settings-modal-header">
+        <div class="modal-title-group">
+          <i class="fa-solid fa-gear"></i>
+          <h3 class="modal-title" data-i18n="settingsModalTitle">Application Settings</h3>
+        </div>
+        <button class="btn-close-modal" id="btn-close-settings">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+      <div class="settings-modal-body">
+        <!-- Info Box about local engine fallback -->
+        <div class="settings-info-box">
+          <i class="fa-solid fa-circle-info"></i>
+          <div>
+            <p data-i18n="settingsInfoText">Farming guides search utilizes a local database fallback if no Gemini key is active. Multimodal photo analysis and disease diagnostic doctor strictly require a valid Gemini API Key.</p>
+          </div>
+        </div>
+
+        <!-- API Key Input Section -->
+        <div class="form-group" style="margin-bottom: 1.25rem;">
+          <label for="input-api-key" class="form-label" style="display: block; margin-bottom: 0.5rem; font-weight: 600;">
+            <i class="fa-solid fa-key"></i> <span data-i18n="settingsApiKeyTitle">Gemini API Key</span>
+          </label>
+          <div class="settings-input-wrapper" style="position: relative; display: flex; align-items: center;">
+            <input 
+              type="password" 
+              id="input-api-key" 
+              class="form-input" 
+              placeholder="AIzaSy..." 
+              style="width: 100%; padding: 0.75rem 2.5rem 0.75rem 1rem; border-radius: var(--radius-md); background: rgba(16, 28, 22, 0.95); border: 1px solid var(--border-glass); color: #fff;"
+              data-i18n-ph="settingsApiKeyPlaceholder"
+            >
+            <button class="btn-icon" id="btn-toggle-api-key-visibility" type="button" style="position: absolute; right: 8px; width: 32px; height: 32px; border: none; background: transparent; color: var(--text-secondary); cursor: pointer;" title="Toggle API Key Visibility">
+              <i class="fa-solid fa-eye-slash" id="api-key-visibility-icon"></i>
+            </button>
+          </div>
+        </div>
+
+        <!-- Status Indicator Box -->
+        <div class="status-indicator-box" id="settings-status-box">
+          <div class="engine-check-item" id="status-server-key-check">
+            <i class="fa-solid fa-circle-xmark text-red" id="icon-server-key"></i>
+            <span data-i18n="statusServerKeyDesc">Server Environment Key (Shared)</span>
+          </div>
+          <div class="engine-check-item" id="status-session-key-check">
+            <i class="fa-solid fa-circle-xmark text-red" id="icon-session-key"></i>
+            <span data-i18n="statusSessionKeyDesc">Custom Browser Session Key</span>
+          </div>
+          <div class="engine-check-item" id="status-active-model">
+            <i class="fa-solid fa-robot text-green"></i>
+            <span><span data-i18n="statusModelLabel">Active Model:</span> <strong id="settings-active-model-name">-</strong></span>
+          </div>
+        </div>
+      </div>
+      <div class="settings-modal-footer">
+        <button class="btn-secondary" id="btn-cancel-settings" data-i18n="btnCancel">Cancel</button>
+        <button class="btn-primary" id="btn-save-settings" data-i18n="btnSaveSettings">Save Settings</button>
       </div>
     </div>
   </div>

@@ -24,11 +24,25 @@ function initApp() {
     theme: savedTheme // 'dark' | 'light'
   };
 
-  // DOM Elements - Theme & Language Toggles
+  // DOM Elements - Theme, Language & Settings Toggles
   const btnLangToggle = document.getElementById('btn-lang-toggle');
   const langIndicator = document.getElementById('lang-indicator');
   const btnThemeToggle = document.getElementById('btn-theme-toggle');
   const themeIcon = document.getElementById('theme-icon');
+  const btnSettingsToggle = document.getElementById('btn-settings-toggle');
+
+  // DOM Elements - Settings Modal
+  const settingsModal = document.getElementById('settings-modal');
+  const btnCloseSettings = document.getElementById('btn-close-settings');
+  const btnCancelSettings = document.getElementById('btn-cancel-settings');
+  const btnSaveSettings = document.getElementById('btn-save-settings');
+  const inputApiKey = document.getElementById('input-api-key');
+  const btnToggleApiKeyVisibility = document.getElementById('btn-toggle-api-key-visibility');
+  const apiKeyVisibilityIcon = document.getElementById('api-key-visibility-icon');
+  const settingsStatusBox = document.getElementById('settings-status-box');
+  const iconServerKey = document.getElementById('icon-server-key');
+  const iconSessionKey = document.getElementById('icon-session-key');
+  const settingsActiveModelName = document.getElementById('settings-active-model-name');
 
   // DOM Elements - Navigation
   const navTabs = document.querySelectorAll('.nav-tab');
@@ -943,6 +957,118 @@ function initApp() {
         }
       } catch (e) {
         showToast(e.message, 'error');
+      }
+    });
+  }
+
+  // =========================================================================
+  // 7. SETTINGS MODAL & API CONFIG INTEGRATION
+  // =========================================================================
+  async function updateSettingsStatus() {
+    try {
+      const response = await fetch(`${API_BASE}/api/config`);
+      const result = await response.json();
+      
+      const hasServerKey = Boolean(result.hasServerKey);
+      const hasSessionKey = Boolean(result.hasSessionKey);
+      const configured = Boolean(result.configured);
+
+      // Server key indicator
+      if (iconServerKey) {
+        iconServerKey.className = hasServerKey 
+          ? 'fa-solid fa-circle-check text-green' 
+          : 'fa-solid fa-circle-xmark text-red';
+      }
+
+      // Session key indicator
+      if (iconSessionKey) {
+        iconSessionKey.className = hasSessionKey 
+          ? 'fa-solid fa-circle-check text-green' 
+          : 'fa-solid fa-circle-xmark text-red';
+      }
+
+      // Configured badge/box style
+      if (settingsStatusBox) {
+        settingsStatusBox.classList.toggle('configured', configured);
+      }
+
+      // Active model display
+      if (settingsActiveModelName) {
+        settingsActiveModelName.textContent = result.defaultModel || 'gemini-3.6-flash';
+      }
+
+      // If we don't have a session key saved, clear the input.
+      // But if we DO have a session key, we can show a placeholder indicating it's active.
+      if (inputApiKey && !hasSessionKey) {
+        inputApiKey.value = '';
+      }
+    } catch (error) {
+      console.error('Error fetching API configuration status:', error);
+    }
+  }
+
+  if (btnSettingsToggle) {
+    btnSettingsToggle.addEventListener('click', () => {
+      if (settingsModal) settingsModal.classList.remove('hidden');
+      updateSettingsStatus();
+    });
+  }
+
+  function closeSettingsModal() {
+    if (settingsModal) settingsModal.classList.add('hidden');
+    // Hide password characters again
+    if (inputApiKey) inputApiKey.type = 'password';
+    if (apiKeyVisibilityIcon) {
+      apiKeyVisibilityIcon.className = 'fa-solid fa-eye-slash';
+    }
+  }
+
+  if (btnCloseSettings) btnCloseSettings.addEventListener('click', closeSettingsModal);
+  if (btnCancelSettings) btnCancelSettings.addEventListener('click', closeSettingsModal);
+
+  // Close modal when clicking outside card
+  if (settingsModal) {
+    settingsModal.addEventListener('click', (e) => {
+      if (e.target === settingsModal) {
+        closeSettingsModal();
+      }
+    });
+  }
+
+  // Toggle API Key visibility
+  if (btnToggleApiKeyVisibility) {
+    btnToggleApiKeyVisibility.addEventListener('click', () => {
+      if (!inputApiKey || !apiKeyVisibilityIcon) return;
+      const isPassword = inputApiKey.type === 'password';
+      inputApiKey.type = isPassword ? 'text' : 'password';
+      apiKeyVisibilityIcon.className = isPassword ? 'fa-solid fa-eye' : 'fa-solid fa-eye-slash';
+    });
+  }
+
+  // Save Settings
+  if (btnSaveSettings) {
+    btnSaveSettings.addEventListener('click', async () => {
+      if (!inputApiKey) return;
+      const apiKey = inputApiKey.value.trim();
+
+      try {
+        const response = await fetch(`${API_BASE}/api/config`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ apiKey })
+        });
+
+        const result = await response.json();
+        if (response.ok && result.success) {
+          showToast(apiKey ? t('toastSettingsSaved') : t('toastSettingsCleared'), 'success');
+          closeSettingsModal();
+          // Trigger a session refresh to update any context
+          fetchSessionHistory();
+        } else {
+          throw new Error(result.error || 'Failed to save settings.');
+        }
+      } catch (error) {
+        showToast(t('toastSettingsFailed') + ': ' + error.message, 'error');
       }
     });
   }

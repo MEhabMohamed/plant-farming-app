@@ -151,7 +151,21 @@ const translations = {
     toastDiagnosed: 'Diagnosis completed:',
     toastSessionCleared: 'Session cleared successfully',
     toastNetworkError: 'Could not connect to backend server. Make sure "npm start" is running on http://localhost:3000.',
-    toastPhotoRequired: 'Please upload or capture a photo first.'
+    toastPhotoRequired: 'Please upload or capture a photo first.',
+
+    // Settings Modal
+    settingsModalTitle: 'Application Settings',
+    settingsInfoText: 'Farming guides search utilizes a local database fallback if no Gemini key is active. Multimodal photo analysis and disease diagnostic doctor strictly require a valid Gemini API Key.',
+    settingsApiKeyTitle: 'Gemini API Key',
+    settingsApiKeyPlaceholder: 'Enter your custom API Key (AIzaSy...)',
+    statusServerKeyDesc: 'Server Environment Key (Shared)',
+    statusSessionKeyDesc: 'Custom Browser Session Key',
+    statusModelLabel: 'Active Model:',
+    btnSaveSettings: 'Save Settings',
+    btnCancel: 'Cancel',
+    toastSettingsSaved: 'API Key saved for active session.',
+    toastSettingsFailed: 'Failed to update configuration.',
+    toastSettingsCleared: 'Custom session API key cleared.'
   },
 
   ar: {
@@ -301,7 +315,21 @@ const translations = {
     toastDiagnosed: 'تم تشخيص الإصابة بنجاح:',
     toastSessionCleared: 'تم مسح السجل بنجاح',
     toastNetworkError: 'تعذر الاتصال بالخادم. يرجى التأكد من تشغيل السيرفر "npm start" على http://localhost:3000.',
-    toastPhotoRequired: 'يرجى التقاط أو اختيار صورة النبات أولاً.'
+    toastPhotoRequired: 'يرجى التقاط أو اختيار صورة النبات أولاً.',
+
+    // Settings Modal
+    settingsModalTitle: 'إعدادات التطبيق',
+    settingsInfoText: 'يعتمد دليل الزراعة على قاعدة بيانات محلية في حال عدم تفعيل مفتاح Gemini. أما الفحص بالصور وتشخيص أمراض النباتات فيتطلب وجود مفتاح Gemini API نشط.',
+    settingsApiKeyTitle: 'مفتاح Gemini API مخصص',
+    settingsApiKeyPlaceholder: 'أدخل مفتاح الـ API الخاص بك (AIzaSy...)',
+    statusServerKeyDesc: 'مفتاح خادم النظام (مشترك)',
+    statusSessionKeyDesc: 'مفتاح الجلسة للمتصفح الحالي',
+    statusModelLabel: 'النموذج النشط:',
+    btnSaveSettings: 'حفظ الإعدادات',
+    btnCancel: 'إلغاء',
+    toastSettingsSaved: 'تم حفظ مفتاح API للجلسة الحالية.',
+    toastSettingsFailed: 'فشل تحديث الإعدادات.',
+    toastSettingsCleared: 'تم مسح مفتاح الجلسة المخصص.'
   }
 };
 

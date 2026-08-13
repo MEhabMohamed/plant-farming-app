@@ -66,7 +66,7 @@ app.listen(PORT, () => {
   console.log(`=================================================`);
   console.log(`🌿 Plant Farming App Server is running!`);
   console.log(`📡 Local URL: http://localhost:${PORT}`);
-  console.log(`🤖 Gemini Model: ${process.env.GEMINI_MODEL || 'gemini-2.5-flash'}`);
+  console.log(`🤖 Gemini Model: ${process.env.GEMINI_MODEL || 'gemini-3.6-flash'}`);
   console.log(`💾 Storage: Session-based in-memory store`);
   console.log(`📚 Data Source: USDA ARS / UC Davis IPM / Cornell Extension (No Wikipedia)`);
   console.log(`=================================================`);

@@ -465,6 +465,14 @@ body.theme-light .toast {
   right: auto;
   left: 12px;
 }
+[dir="rtl"] .settings-input-wrapper button {
+  right: auto;
+  left: 8px;
+}
+[dir="rtl"] .settings-input-wrapper input {
+  padding-right: 1rem !important;
+  padding-left: 2.5rem !important;
+}
 
 /* Main Container */
 .main-container {

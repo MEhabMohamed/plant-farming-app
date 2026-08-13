@@ -12,32 +12,54 @@ dotenv.config();
 
 // Allowed models in order of priority
 const FLASH_MODELS = [
-  process.env.GEMINI_MODEL || 'gemini-2.5-flash',
+  process.env.GEMINI_MODEL || 'gemini-3.6-flash',
+  'gemini-3.6-flash',
+  'gemini-3.5-flash',
   'gemini-2.0-flash',
   'gemini-1.5-flash'
 ];
 
 /**
- * Helper to get active Gemini client and model instance
+ * Check if a valid API key is present
  */
-function getGenerativeModel(apiKeyOverride = null, modelName = null) {
+function hasGenerativeKey(apiKeyOverride = null) {
   const key = apiKeyOverride || process.env.GEMINI_API_KEY;
+  return Boolean(key && key.trim() !== '');
+}
+
+/**
+ * Helper to generate content with fallback to other models if the primary one fails
+ */
+async function generateContentWithFallback(apiKey, promptOrParts) {
+  const key = apiKey || process.env.GEMINI_API_KEY;
   if (!key || key.trim() === '') {
-    return null;
+    throw new Error('Gemini API Key is required.');
   }
+
   const genAI = new GoogleGenerativeAI(key.trim());
-  const selectedModel = modelName || FLASH_MODELS[0];
-  return {
-    genAI,
-    modelName: selectedModel,
-    client: genAI.getGenerativeModel({
-      model: selectedModel,
-      generationConfig: {
-        responseMimeType: 'application/json',
-        temperature: 0.2
-      }
-    })
-  };
+  const modelsToTry = [...new Set(FLASH_MODELS.map(m => m ? m.trim() : '').filter(Boolean))];
+
+  let lastError = null;
+  for (const modelName of modelsToTry) {
+    try {
+      console.log(`🤖 Attempting Gemini call with model: ${modelName}`);
+      const model = genAI.getGenerativeModel({
+        model: modelName,
+        generationConfig: {
+          responseMimeType: 'application/json',
+          temperature: 0.2
+        }
+      });
+      const result = await model.generateContent(promptOrParts);
+      const text = result.response.text();
+      return { text, modelName };
+    } catch (err) {
+      console.warn(`⚠️ Model ${modelName} failed:`, err.message);
+      lastError = err;
+    }
+  }
+
+  throw lastError || new Error('All Gemini model attempts failed.');
 }
 
 /**
@@ -56,9 +78,7 @@ function bufferToGenerativePart(buffer, mimeType = 'image/jpeg') {
  * 1. Search Plant By Name - Returns full agricultural profile
  */
 export async function getPlantAgriProfile(plantName, apiKey = null, lang = 'en') {
-  const modelInstance = getGenerativeModel(apiKey);
-
-  if (!modelInstance) {
+  if (!hasGenerativeKey(apiKey)) {
     // Return high-quality synthesis from authoritative local engine
     return synthesizeAgriProfile(plantName, null, lang);
   }
@@ -126,8 +146,7 @@ Return STRICTLY a JSON object with this exact structure:
 }`;
 
   try {
-    const result = await modelInstance.client.generateContent(prompt);
-    const text = result.response.text();
+    const { text } = await generateContentWithFallback(apiKey, prompt);
     const parsed = JSON.parse(text);
     return synthesizeAgriProfile(plantName, parsed, lang);
   } catch (error) {
@@ -140,9 +159,7 @@ Return STRICTLY a JSON object with this exact structure:
  * 2. Identify Plant from Image
  */
 export async function identifyPlantFromImage(imageBuffer, mimeType = 'image/jpeg', apiKey = null, lang = 'en') {
-  const modelInstance = getGenerativeModel(apiKey);
-
-  if (!modelInstance) {
+  if (!hasGenerativeKey(apiKey)) {
     return {
       success: false,
       message: lang === 'ar' 
@@ -171,8 +188,7 @@ Return STRICTLY a JSON object with:
 }`;
 
   try {
-    const result = await modelInstance.client.generateContent([prompt, imagePart]);
-    const text = result.response.text();
+    const { text } = await generateContentWithFallback(apiKey, [prompt, imagePart]);
     const identification = JSON.parse(text);
 
     // Fetch full agricultural guide for the identified plant
@@ -193,9 +209,7 @@ Return STRICTLY a JSON object with:
  * 3. Diagnose Plant Defect / Disease from Image and Symptoms
  */
 export async function diagnosePlantDisease(imageBuffer, mimeType = 'image/jpeg', userSymptoms = '', apiKey = null, lang = 'en') {
-  const modelInstance = getGenerativeModel(apiKey);
-
-  if (!modelInstance) {
+  if (!hasGenerativeKey(apiKey)) {
     return {
       success: false,
       message: lang === 'ar' 
@@ -255,8 +269,7 @@ Return STRICTLY a JSON object with this exact structure:
 }`;
 
   try {
-    const result = await modelInstance.client.generateContent([prompt, imagePart]);
-    const text = result.response.text();
+    const { text } = await generateContentWithFallback(apiKey, [prompt, imagePart]);
     const diagnosis = JSON.parse(text);
     return {
       success: true,
