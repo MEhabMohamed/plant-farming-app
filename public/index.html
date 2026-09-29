@@ -759,20 +759,19 @@
         </div>
 
         <!-- API Key Input Section -->
-        <div class="form-group" style="margin-bottom: 1.25rem;">
-          <label for="input-api-key" class="form-label" style="display: block; margin-bottom: 0.5rem; font-weight: 600;">
+        <div class="form-group settings-api-group">
+          <label for="input-api-key" class="form-label settings-api-label">
             <i class="fa-solid fa-key"></i> <span data-i18n="settingsApiKeyTitle">Gemini API Key</span>
           </label>
-          <div class="settings-input-wrapper" style="position: relative; display: flex; align-items: center;">
+          <div class="settings-input-wrapper">
             <input 
               type="password" 
               id="input-api-key" 
-              class="form-input" 
+              class="form-input settings-api-input" 
               placeholder="AIzaSy..." 
-              style="width: 100%; padding: 0.75rem 2.5rem 0.75rem 1rem; border-radius: var(--radius-md); background: rgba(16, 28, 22, 0.95); border: 1px solid var(--border-glass); color: #fff;"
               data-i18n-ph="settingsApiKeyPlaceholder"
             >
-            <button class="btn-icon" id="btn-toggle-api-key-visibility" type="button" style="position: absolute; right: 8px; width: 32px; height: 32px; border: none; background: transparent; color: var(--text-secondary); cursor: pointer;" title="Toggle API Key Visibility">
+            <button class="btn-icon btn-api-key-eye" id="btn-toggle-api-key-visibility" type="button" title="Toggle API Key Visibility">
               <i class="fa-solid fa-eye-slash" id="api-key-visibility-icon"></i>
             </button>
           </div>

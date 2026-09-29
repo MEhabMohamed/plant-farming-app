@@ -1850,6 +1850,57 @@ body.theme-light .toast {
   font-size: 1.1rem;
   margin-top: 0.1rem;
 }
+.settings-api-group {
+  margin-bottom: 1.25rem;
+}
+.settings-api-label {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+  font-size: 0.88rem;
+  color: var(--text-primary);
+}
+.settings-input-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+.settings-api-input {
+  width: 100%;
+  padding-block: 0.75rem;
+  padding-inline-start: 1rem;
+  padding-inline-end: 2.75rem;
+  border-radius: var(--radius-md);
+  background: rgba(16, 28, 22, 0.95);
+  border: 1px solid var(--border-glass);
+  color: #fff;
+  font-size: 0.9rem;
+  font-family: monospace;
+}
+.settings-api-input:focus {
+  border-color: var(--emerald-light);
+  box-shadow: 0 0 15px rgba(16, 185, 129, 0.25);
+}
+.btn-api-key-eye {
+  position: absolute;
+  inset-inline-end: 8px;
+  width: 32px;
+  height: 32px;
+  border: none;
+  background: transparent;
+  color: var(--text-secondary);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: var(--transition);
+}
+.btn-api-key-eye:hover {
+  color: #fff;
+}
 .model-badge-info {
   display: flex;
   align-items: center;
@@ -1972,55 +2023,77 @@ button, input, select, textarea, .nav-tab, .chip-item, .sym-tag, .btn-primary, .
   /* Header & Navigation */
   .app-header {
     padding-top: env(safe-area-inset-top, 0px);
+    position: sticky;
+    top: 0;
+    z-index: 50;
   }
 
   .header-container {
+    display: flex;
     flex-wrap: wrap;
-    padding: 0.65rem 1rem;
-    gap: 0.75rem;
+    align-items: center;
     justify-content: space-between;
+    padding: 0.65rem 0.85rem;
+    gap: 0.6rem;
   }
 
   .brand-group {
-    gap: 0.65rem;
-    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    flex: 1;
+    min-width: 0;
   }
 
   .brand-icon {
-    width: 38px;
-    height: 38px;
-    font-size: 1.15rem;
+    width: 36px;
+    height: 36px;
+    font-size: 1.1rem;
+    flex-shrink: 0;
+  }
+
+  .brand-text {
+    flex: 1;
+    min-width: 0;
+    overflow: hidden;
   }
 
   .brand-title {
-    font-size: 1.18rem;
+    font-size: clamp(0.98rem, 3.8vw, 1.16rem);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    line-height: 1.2;
   }
 
   .brand-subtitle {
-    font-size: 0.7rem;
+    font-size: clamp(0.64rem, 2.4vw, 0.72rem);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 
   .header-actions {
     display: flex;
     align-items: center;
-    gap: 0.5rem;
+    gap: 0.35rem;
     flex-shrink: 0;
-    margin-inline-start: auto;
+    margin-inline-start: 0.4rem;
   }
 
   .btn-icon {
-    width: 38px;
-    height: 38px;
-    font-size: 0.95rem;
+    width: 36px;
+    height: 36px;
+    font-size: 0.9rem;
     flex-shrink: 0;
   }
 
   .btn-icon.lang-toggle {
     width: auto;
-    min-width: 86px;
-    height: 38px;
-    padding: 0 0.85rem;
-    font-size: 0.82rem;
+    min-width: auto;
+    height: 36px;
+    padding: 0 0.6rem;
+    font-size: 0.76rem;
     font-weight: 700;
     display: inline-flex;
     align-items: center;
@@ -2029,19 +2102,19 @@ button, input, select, textarea, .nav-tab, .chip-item, .sym-tag, .btn-primary, .
     border-radius: var(--radius-full);
   }
 
-  /* Responsive Tabs - Each Choice in a Separate Line in Mobile View */
+  /* Responsive Tabs - Stacked full-width pills */
   .nav-tabs {
     order: 3;
     width: 100%;
     display: flex;
     flex-direction: column;
-    gap: 0.5rem;
-    background: rgba(13, 23, 18, 0.9);
-    padding: 0.5rem;
+    gap: 0.4rem;
+    background: rgba(13, 23, 18, 0.92);
+    padding: 0.4rem;
     border-radius: var(--radius-md);
     border: 1px solid var(--border-glass);
     overflow: visible;
-    white-space: normal;
+    box-sizing: border-box;
   }
 
   body.theme-light .nav-tabs {
@@ -2054,111 +2127,160 @@ button, input, select, textarea, .nav-tab, .chip-item, .sym-tag, .btn-primary, .
     display: flex;
     align-items: center;
     justify-content: flex-start;
-    padding: 0.75rem 1rem;
+    padding: 0.65rem 0.85rem;
     border-radius: var(--radius-md);
-    font-size: 0.92rem;
+    font-size: 0.88rem;
     font-weight: 600;
-    gap: 0.75rem;
+    gap: 0.65rem;
     text-align: start;
+    box-sizing: border-box;
     transition: var(--transition);
   }
 
   .nav-tab i {
-    font-size: 1.05rem;
-    width: 22px;
+    font-size: 1rem;
+    width: 20px;
     text-align: center;
     flex-shrink: 0;
   }
 
   .nav-tab span:not(.badge-pulse):not(.session-count-badge) {
     flex: 1;
+    min-width: 0;
     text-align: start;
+    line-height: 1.3;
+    word-break: break-word;
   }
 
   .nav-tab .badge-pulse,
   .nav-tab .session-count-badge {
     margin-inline-start: auto;
     flex-shrink: 0;
-  }
-
-  .nav-tab.active {
-    background: linear-gradient(135deg, rgba(16, 185, 129, 0.25), rgba(5, 150, 105, 0.35));
-    border: 1px solid rgba(52, 211, 153, 0.45);
-    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.25);
-  }
-
-  body.theme-light .nav-tab.active {
-    background: #ffffff;
-    border-color: rgba(16, 185, 129, 0.4);
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
-  }
-
-  .badge-pulse {
-    font-size: 0.65rem;
+    font-size: 0.66rem;
     padding: 0.15rem 0.45rem;
-  }
-
-  .session-count-badge {
-    font-size: 0.72rem;
-    padding: 0.12rem 0.5rem;
   }
 
   /* Main Container */
   .main-container {
-    padding: 1rem 0.85rem 3rem;
+    padding: 1rem 0.75rem 3rem;
   }
 
   /* Hero & Search */
   .hero-card, .doctor-hero, .session-card {
-    padding: 1.35rem 1rem;
+    padding: 1.25rem 0.9rem;
     border-radius: var(--radius-md);
     margin-bottom: 1.25rem;
   }
 
   .hero-title, .doctor-title, .session-title {
-    font-size: 1.55rem;
+    font-size: clamp(1.35rem, 5vw, 1.65rem);
     line-height: 1.25;
+    word-break: break-word;
   }
 
   .hero-desc, .doctor-desc, .session-subtitle {
-    font-size: 0.88rem;
+    font-size: 0.86rem;
     line-height: 1.5;
-    margin-bottom: 1.25rem;
+    margin-bottom: 1.2rem;
+    word-break: break-word;
   }
 
   .hero-badge, .doctor-badge {
+    display: inline-flex;
+    align-items: flex-start;
+    gap: 0.45rem;
     font-size: 0.74rem;
-    padding: 0.25rem 0.7rem;
+    line-height: 1.4;
+    padding: 0.3rem 0.65rem;
     white-space: normal;
-    text-align: left;
+    text-align: start;
+    max-width: 100%;
+    word-break: break-word;
+  }
+
+  .hero-badge i, .doctor-badge i {
+    margin-top: 0.15rem;
+    flex-shrink: 0;
   }
 
   .search-controller-wrapper {
     padding: 0.85rem;
     border-radius: var(--radius-md);
+    margin-bottom: 1.25rem;
   }
 
   .search-input-box {
-    padding: 0.35rem 0.4rem 0.35rem 0.85rem;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.65rem;
+    border-radius: var(--radius-md);
+    padding: 0.75rem;
+    box-shadow: none;
+    background: rgba(16, 28, 22, 0.95);
+  }
+
+  .search-icon {
+    display: none;
   }
 
   .search-input-box input {
+    width: 100%;
+    padding: 0.65rem 0.85rem;
+    background: rgba(8, 16, 12, 0.6);
+    border-radius: var(--radius-sm);
+    border: 1px solid rgba(52, 211, 153, 0.25);
     font-size: 0.9rem;
+    color: #fff;
+    box-sizing: border-box;
   }
 
   .search-submit-btn {
-    padding: 0.65rem 1rem;
+    width: 100%;
+    justify-content: center;
+    padding: 0.75rem 1rem;
+    font-size: 0.92rem;
+    border-radius: var(--radius-sm);
+  }
+
+  .search-divider {
+    margin: 0.75rem 0;
+    font-size: 0.72rem;
+  }
+
+  .scan-trigger-actions {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    gap: 0.55rem;
+  }
+
+  .btn-camera-trigger, .btn-upload-trigger {
+    width: 100%;
+    justify-content: center;
+    text-align: center;
+    padding: 0.72rem 1rem;
     font-size: 0.88rem;
+    box-sizing: border-box;
+    border-radius: var(--radius-full);
   }
 
   .quick-chips-wrapper {
+    display: flex;
     flex-direction: column;
     align-items: flex-start;
     gap: 0.5rem;
+    margin-top: 1rem;
+  }
+
+  .chips-label {
+    font-size: 0.78rem;
   }
 
   .quick-chips {
     width: 100%;
+    display: flex;
+    gap: 0.4rem;
     overflow-x: auto;
     flex-wrap: nowrap;
     -webkit-overflow-scrolling: touch;
@@ -2172,13 +2294,13 @@ button, input, select, textarea, .nav-tab, .chip-item, .sym-tag, .btn-primary, .
 
   .chip-item {
     flex-shrink: 0;
-    font-size: 0.78rem;
-    padding: 0.3rem 0.75rem;
+    font-size: 0.76rem;
+    padding: 0.32rem 0.7rem;
   }
 
   /* Results: Crop Header Card */
   .crop-header-card {
-    padding: 1.25rem 1rem;
+    padding: 1.15rem 0.9rem;
     flex-direction: column;
     align-items: stretch;
     gap: 1rem;
@@ -2186,8 +2308,16 @@ button, input, select, textarea, .nav-tab, .chip-item, .sym-tag, .btn-primary, .
     border-radius: var(--radius-md);
   }
 
+  [dir="rtl"] .crop-header-card {
+    border-left-width: 1px;
+    border-right-width: 4px;
+  }
+
   .crop-header-main {
+    display: flex;
+    align-items: center;
     gap: 0.85rem;
+    width: 100%;
   }
 
   .crop-avatar {
@@ -2195,14 +2325,35 @@ button, input, select, textarea, .nav-tab, .chip-item, .sym-tag, .btn-primary, .
     height: 50px;
     font-size: 1.4rem;
     flex-shrink: 0;
+    border-radius: var(--radius-md);
+  }
+
+  .crop-meta {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .crop-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.35rem;
+    margin-bottom: 0.3rem;
+  }
+
+  .crop-tags .badge {
+    font-size: 0.68rem;
+    padding: 0.15rem 0.55rem;
   }
 
   .crop-common-name {
-    font-size: 1.45rem;
+    font-size: clamp(1.25rem, 5vw, 1.5rem);
+    word-break: break-word;
+    line-height: 1.2;
   }
 
   .crop-scientific-name {
-    font-size: 0.85rem;
+    font-size: 0.82rem;
+    word-break: break-word;
   }
 
   .crop-header-actions {
@@ -2212,6 +2363,7 @@ button, input, select, textarea, .nav-tab, .chip-item, .sym-tag, .btn-primary, .
   .crop-header-actions .btn-secondary {
     width: 100%;
     justify-content: center;
+    padding: 0.75rem 1rem;
   }
 
   /* Agronomic Grid */
@@ -2222,14 +2374,21 @@ button, input, select, textarea, .nav-tab, .chip-item, .sym-tag, .btn-primary, .
   }
 
   .agri-card, .diag-card {
-    padding: 1.25rem 1rem;
+    padding: 1.15rem 0.9rem;
     border-radius: var(--radius-md);
   }
 
   .card-header {
+    display: flex;
+    align-items: center;
     gap: 0.75rem;
-    margin-bottom: 1rem;
+    margin-bottom: 0.85rem;
     padding-bottom: 0.75rem;
+  }
+
+  .card-header > div {
+    flex: 1;
+    min-width: 0;
   }
 
   .card-icon {
@@ -2241,28 +2400,72 @@ button, input, select, textarea, .nav-tab, .chip-item, .sym-tag, .btn-primary, .
 
   .card-title {
     font-size: 1.05rem;
+    line-height: 1.25;
+    word-break: break-word;
+  }
+
+  .card-subtitle {
+    font-size: 0.76rem;
+    word-break: break-word;
   }
 
   .detail-row {
     margin-bottom: 0.75rem;
+    gap: 0.2rem;
   }
 
   .detail-label {
     font-size: 0.78rem;
+    display: flex;
+    align-items: flex-start;
+    gap: 0.4rem;
+  }
+
+  .detail-label i {
+    margin-top: 0.15rem;
+    flex-shrink: 0;
   }
 
   .detail-value {
     font-size: 0.88rem;
     word-break: break-word;
+    line-height: 1.4;
   }
 
   /* Soil pH Gauge */
   .ph-gauge-wrapper {
     padding: 0.85rem;
+    border-radius: var(--radius-md);
+  }
+
+  .ph-bar-track,
+  .ph-scale-labels {
+    direction: ltr !important;
+  }
+
+  .ph-gauge-header {
+    font-size: 0.82rem;
+    margin-bottom: 0.65rem;
+  }
+
+  .ph-value-badge {
+    font-size: 0.74rem;
+    padding: 0.15rem 0.55rem;
+  }
+
+  .ph-bar-track {
+    height: 12px;
+    margin-bottom: 0.45rem;
+  }
+
+  .ph-indicator {
+    width: 18px;
+    height: 18px;
+    top: -3px;
   }
 
   .ph-scale-labels {
-    font-size: 0.65rem;
+    font-size: 0.66rem;
   }
 
   /* IPM Layout */
@@ -2271,21 +2474,60 @@ button, input, select, textarea, .nav-tab, .chip-item, .sym-tag, .btn-primary, .
     gap: 1rem;
   }
 
+  .ipm-heading {
+    font-size: 0.9rem;
+    gap: 0.45rem;
+  }
+
+  .ipm-list {
+    gap: 0.45rem;
+  }
+
   .ipm-list li {
     font-size: 0.82rem;
-    padding: 0.4rem 0.65rem;
+    padding: 0.45rem 0.75rem;
+    border-left-width: 3px;
+    border-radius: var(--radius-sm);
+    word-break: break-word;
+  }
+
+  [dir="rtl"] .ipm-list li {
+    border-left-width: 0;
+    border-right-width: 3px;
   }
 
   .ipm-footer {
     padding: 0.85rem;
+    border-radius: var(--radius-md);
+  }
+
+  .ipm-text {
+    font-size: 0.84rem;
+    word-break: break-word;
   }
 
   .sources-card {
-    padding: 1rem;
+    padding: 0.9rem;
     flex-direction: column;
     align-items: flex-start;
     gap: 0.65rem;
     border-radius: var(--radius-md);
+  }
+
+  .sources-header {
+    font-size: 0.8rem;
+  }
+
+  .sources-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.35rem;
+    width: 100%;
+  }
+
+  .source-tag {
+    font-size: 0.72rem;
+    padding: 0.2rem 0.55rem;
   }
 
   /* Doctor Tab */
@@ -2295,7 +2537,8 @@ button, input, select, textarea, .nav-tab, .chip-item, .sym-tag, .btn-primary, .
   }
 
   .doctor-dropzone {
-    min-height: 230px;
+    min-height: 220px;
+    border-radius: var(--radius-md);
   }
 
   .dropzone-empty {
@@ -2304,13 +2547,19 @@ button, input, select, textarea, .nav-tab, .chip-item, .sym-tag, .btn-primary, .
 
   .dropzone-icon {
     font-size: 2.2rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .dropzone-text {
+    font-size: 0.88rem;
+    margin-bottom: 0.85rem;
   }
 
   .dropzone-buttons {
     flex-direction: column;
     width: 100%;
     max-width: 280px;
-    margin: 0 auto 0.75rem;
+    margin: 0 auto 0.65rem;
     gap: 0.5rem;
   }
 
@@ -2318,26 +2567,39 @@ button, input, select, textarea, .nav-tab, .chip-item, .sym-tag, .btn-primary, .
   .dropzone-buttons .btn-secondary {
     width: 100%;
     justify-content: center;
-    padding: 0.65rem 1rem;
+    padding: 0.7rem 1rem;
+  }
+
+  .dropzone-hint {
+    font-size: 0.72rem;
+  }
+
+  .symptom-tags-wrapper {
+    margin-bottom: 1.25rem;
   }
 
   .symptom-tags {
+    display: flex;
+    flex-wrap: wrap;
     gap: 0.35rem;
   }
 
   .sym-tag {
-    font-size: 0.74rem;
-    padding: 0.28rem 0.6rem;
+    font-size: 0.75rem;
+    padding: 0.32rem 0.65rem;
+    line-height: 1.3;
   }
 
   .btn-diagnose-submit {
-    padding: 0.8rem 1.2rem;
+    width: 100%;
+    justify-content: center;
+    padding: 0.85rem 1.2rem;
     font-size: 0.95rem;
   }
 
   /* Diagnosis Report Header */
   .diag-header-card {
-    padding: 1.25rem 1rem;
+    padding: 1.15rem 0.9rem;
     flex-direction: column;
     align-items: stretch;
     gap: 1rem;
@@ -2345,41 +2607,148 @@ button, input, select, textarea, .nav-tab, .chip-item, .sym-tag, .btn-primary, .
     border-radius: var(--radius-md);
   }
 
+  [dir="rtl"] .diag-header-card {
+    border-left-width: 1px;
+    border-right-width: 4px;
+  }
+
+  .diag-header-content {
+    width: 100%;
+    min-width: 0;
+  }
+
+  .diag-status-badge {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    align-items: center;
+    margin-bottom: 0.5rem;
+  }
+
+  .severity-pill, .confidence-pill {
+    font-size: 0.72rem;
+    padding: 0.2rem 0.65rem;
+  }
+
   .diag-defect-name {
-    font-size: 1.45rem;
+    font-size: clamp(1.25rem, 5vw, 1.6rem);
     word-break: break-word;
+    line-height: 1.25;
+    margin-bottom: 0.3rem;
   }
 
   .diag-host-plant {
-    font-size: 0.88rem;
+    font-size: 0.86rem;
+    word-break: break-word;
+    margin-bottom: 0.4rem;
+  }
+
+  .diag-pathogen-tag {
+    font-size: 0.78rem;
+    gap: 0.35rem;
   }
 
   .diag-affected-box {
-    padding: 0.75rem;
+    width: 100%;
+    padding: 0.75rem 0.85rem;
+    border-radius: var(--radius-md);
+    box-sizing: border-box;
+  }
+
+  .affected-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.35rem;
+  }
+
+  .affected-tag {
+    font-size: 0.74rem;
+    padding: 0.15rem 0.5rem;
+  }
+
+  /* Diagnosis Cards */
+  .diag-subtitle {
+    font-size: 0.88rem;
+    margin-bottom: 0.4rem;
+  }
+
+  .diag-body-text {
+    font-size: 0.84rem;
+    line-height: 1.5;
+  }
+
+  .diag-list {
+    gap: 0.45rem;
+  }
+
+  .diag-list li {
+    font-size: 0.82rem;
+    padding: 0.45rem 0.75rem;
+    border-left-width: 3px;
+    border-radius: var(--radius-sm);
+    word-break: break-word;
+  }
+
+  [dir="rtl"] .diag-list li {
+    border-left-width: 0;
+    border-right-width: 3px;
+  }
+
+  .triage-steps {
+    gap: 0.65rem;
   }
 
   .triage-step {
     padding: 0.75rem;
     gap: 0.65rem;
+    border-radius: var(--radius-md);
+    display: flex;
+    align-items: flex-start;
   }
 
   .triage-num {
     width: 24px;
     height: 24px;
     font-size: 0.78rem;
+    flex-shrink: 0;
   }
 
   .triage-text {
     font-size: 0.84rem;
+    word-break: break-word;
+    flex: 1;
+    min-width: 0;
+  }
+
+  .remedy-list {
+    gap: 0.65rem;
   }
 
   .remedy-item {
     padding: 0.65rem 0.85rem;
-    gap: 0.6rem;
+    gap: 0.65rem;
+    border-radius: var(--radius-md);
+    border-left-width: 4px;
+    display: flex;
+    align-items: flex-start;
+  }
+
+  [dir="rtl"] .remedy-item {
+    border-left-width: 0;
+    border-right-width: 4px;
+  }
+
+  .remedy-icon {
+    font-size: 1rem;
+    margin-top: 0.15rem;
+    flex-shrink: 0;
   }
 
   .remedy-desc {
-    font-size: 0.82rem;
+    font-size: 0.84rem;
+    word-break: break-word;
+    flex: 1;
+    min-width: 0;
   }
 
   .prevention-grid {
@@ -2388,20 +2757,36 @@ button, input, select, textarea, .nav-tab, .chip-item, .sym-tag, .btn-primary, .
   }
 
   .prevention-item {
-    padding: 0.75rem;
+    padding: 0.75rem 0.85rem;
+    border-radius: var(--radius-md);
   }
 
   .prevention-item p {
-    font-size: 0.82rem;
+    font-size: 0.84rem;
+    word-break: break-word;
   }
 
   /* Session Tab */
+  .session-card {
+    padding: 1.15rem 0.9rem;
+    border-radius: var(--radius-md);
+  }
+
   .session-header {
     flex-direction: column;
     align-items: stretch;
-    gap: 1rem;
+    gap: 0.85rem;
     margin-bottom: 1.25rem;
     padding-bottom: 1rem;
+  }
+
+  .session-title {
+    font-size: 1.45rem;
+    line-height: 1.25;
+  }
+
+  .session-subtitle {
+    font-size: 0.84rem;
   }
 
   .session-actions {
@@ -2413,31 +2798,83 @@ button, input, select, textarea, .nav-tab, .chip-item, .sym-tag, .btn-primary, .
   .session-actions button {
     width: 100%;
     justify-content: center;
+    padding: 0.75rem 1rem;
   }
 
   .session-stats-grid {
     grid-template-columns: 1fr;
-    gap: 0.75rem;
+    gap: 0.65rem;
     margin-bottom: 1.25rem;
   }
 
   .stat-card {
-    padding: 1rem;
+    padding: 0.85rem;
+    border-radius: var(--radius-md);
+  }
+
+  .stat-icon {
+    width: 42px;
+    height: 42px;
+    font-size: 1.2rem;
+    flex-shrink: 0;
   }
 
   .stat-num {
     font-size: 1.35rem;
   }
 
+  .stat-label {
+    font-size: 0.78rem;
+  }
+
+  .session-records-container {
+    width: 100%;
+  }
+
+  .records-title {
+    font-size: 1.05rem;
+    margin-bottom: 1rem;
+  }
+
   .timeline-card {
-    padding: 1rem;
+    padding: 0.85rem 0.95rem;
     flex-direction: column;
     align-items: flex-start;
-    gap: 0.75rem;
+    gap: 0.65rem;
+    border-radius: var(--radius-md);
+  }
+
+  .timeline-card:hover {
+    transform: none;
   }
 
   .timeline-main {
     width: 100%;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  .timeline-icon {
+    width: 38px;
+    height: 38px;
+    font-size: 1.05rem;
+    flex-shrink: 0;
+  }
+
+  .timeline-main > div {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .timeline-title {
+    font-size: 0.98rem;
+    word-break: break-word;
+  }
+
+  .timeline-sub {
+    font-size: 0.76rem;
+    word-break: break-word;
   }
 
   .timeline-time {
@@ -2447,12 +2884,14 @@ button, input, select, textarea, .nav-tab, .chip-item, .sym-tag, .btn-primary, .
 
   /* Modals */
   .modal-backdrop {
-    padding: 0.65rem;
+    padding: 0.5rem;
   }
 
   .camera-modal-card, .settings-modal-card {
+    width: 100%;
     max-height: 94vh;
     border-radius: var(--radius-md);
+    overflow: hidden;
   }
 
   .camera-modal-header, .settings-modal-header {
@@ -2464,7 +2903,8 @@ button, input, select, textarea, .nav-tab, .chip-item, .sym-tag, .btn-primary, .
   }
 
   .camera-viewport-container {
-    height: clamp(220px, 48vh, 380px);
+    height: clamp(220px, 48vh, 360px);
+    width: 100%;
   }
 
   .vf-corner {
@@ -2475,7 +2915,7 @@ button, input, select, textarea, .nav-tab, .chip-item, .sym-tag, .btn-primary, .
   .vf-tr { top: 15px; right: 15px; }
   .vf-bl { bottom: 15px; left: 15px; }
   .vf-br { bottom: 15px; right: 15px; }
-  .vf-guide-text { bottom: 25px; font-size: 0.75rem; }
+  .vf-guide-text { bottom: 20px; font-size: 0.75rem; }
 
   .camera-modal-footer {
     padding: 0.85rem 1rem;
@@ -2503,6 +2943,8 @@ button, input, select, textarea, .nav-tab, .chip-item, .sym-tag, .btn-primary, .
 
   .settings-modal-body {
     padding: 1rem;
+    max-height: calc(94vh - 130px);
+    overflow-y: auto;
   }
 
   .settings-modal-footer {
@@ -2529,101 +2971,84 @@ button, input, select, textarea, .nav-tab, .chip-item, .sym-tag, .btn-primary, .
     width: 100%;
     padding: 0.75rem 1rem;
     font-size: 0.84rem;
+    box-sizing: border-box;
   }
 }
 
 /* Extra Small Phones (<= 480px) */
 @media screen and (max-width: 480px) {
   .header-container {
-    padding: 0.6rem 0.75rem;
-    gap: 0.5rem;
+    padding: 0.55rem 0.65rem;
+    gap: 0.45rem;
   }
 
   .brand-icon {
-    width: 34px;
-    height: 34px;
-    font-size: 1.05rem;
+    width: 32px;
+    height: 32px;
+    font-size: 1rem;
   }
 
   .brand-title {
-    font-size: 1.08rem;
+    font-size: 1.02rem;
   }
 
   .brand-subtitle {
-    font-size: 0.66rem;
+    font-size: 0.64rem;
   }
 
   .header-actions {
-    gap: 0.4rem;
+    gap: 0.3rem;
   }
 
   .btn-icon.lang-toggle {
-    min-width: 78px;
-    height: 36px;
-    padding: 0 0.65rem;
-    font-size: 0.76rem;
+    height: 32px;
+    padding: 0 0.45rem;
+    font-size: 0.72rem;
   }
 
-  .btn-icon.theme-toggle {
-    width: 36px;
-    height: 36px;
-    font-size: 0.88rem;
+  .btn-icon.theme-toggle,
+  .btn-icon.settings-toggle {
+    width: 32px;
+    height: 32px;
+    font-size: 0.82rem;
   }
 
   .nav-tabs {
-    padding: 0.4rem;
-    gap: 0.4rem;
+    padding: 0.35rem;
+    gap: 0.35rem;
   }
 
   .nav-tab {
-    padding: 0.65rem 0.85rem;
-    font-size: 0.88rem;
-    gap: 0.6rem;
+    padding: 0.6rem 0.75rem;
+    font-size: 0.85rem;
+    gap: 0.55rem;
+  }
+
+  .main-container {
+    padding: 0.85rem 0.6rem 2.5rem;
+  }
+
+  .hero-card, .doctor-hero, .session-card {
+    padding: 1.1rem 0.75rem;
+  }
+
+  .agri-card, .diag-card {
+    padding: 1rem 0.75rem;
   }
 
   .search-input-box {
-    flex-direction: column;
-    align-items: stretch;
-    gap: 0.6rem;
-    border-radius: var(--radius-md);
-    padding: 0.75rem;
-  }
-
-  .search-icon {
-    display: none;
+    padding: 0.65rem;
+    gap: 0.55rem;
   }
 
   .search-input-box input {
-    width: 100%;
-    padding: 0.25rem 0;
+    padding: 0.55rem 0.7rem;
+    font-size: 0.86rem;
   }
 
   .search-submit-btn {
-    width: 100%;
-    justify-content: center;
-  }
-
-  .scan-trigger-actions {
-    flex-direction: column;
-    width: 100%;
-    gap: 0.6rem;
-  }
-
-  .btn-camera-trigger, .btn-upload-trigger {
-    width: 100%;
-    justify-content: center;
-    text-align: center;
-  }
-
-  .crop-header-main {
-    flex-direction: column;
-    align-items: flex-start;
-  }
-
-  .diag-status-badge {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 0.35rem;
+    padding: 0.7rem 0.85rem;
+    font-size: 0.88rem;
   }
 }
 
